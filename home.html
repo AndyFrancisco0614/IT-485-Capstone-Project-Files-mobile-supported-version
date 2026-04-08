@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>APS Home</title>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+
+<style>
+body{
+  font-family: "Public Sans", sans-serif;
+}
+
+.navlinks a{
+  font-size:16px;
+  font-weight:800;
+}
+
+.brand svg{
+  width:64px;
+  height:64px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+.brand span{
+  font-size:26px;
+  font-weight:800;
+}
+
+.hero{
+  min-height:calc(100vh - 72px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:40px 20px;
+}
+
+[data-theme="dark"] .hero{
+  background: transparent;
+}
+
+.introCard{
+  background: var(--panel);
+  color: var(--text);
+  max-width:850px;
+  width:100%;
+  border-radius:18px;
+  padding:40px;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  text-align:center;
+}
+
+.introCard h1{
+  font-size:42px;
+  margin:0 0 10px;
+}
+
+.subtitle{
+  font-size:18px;
+  color: var(--muted);
+  margin-bottom:28px;
+  font-weight:600;
+}
+
+.features{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:18px;
+  margin-bottom:28px;
+}
+
+.feature{
+  background: rgba(47,119,255,.06);
+  border: 1px solid var(--line);
+  padding:18px;
+  border-radius:14px;
+  font-weight:700;
+}
+
+[data-theme="dark"] .feature{
+  background: rgba(106,162,255,.10);
+}
+
+.feature span{
+  display:block;
+  font-size:14px;
+  color: var(--muted);
+  margin-top:6px;
+  font-weight:700;
+}
+
+.enterBtn{
+  display:inline-block;
+  padding:16px 28px;
+  background:var(--primary);
+  color:white;
+  border-radius:12px;
+  text-decoration:none;
+  font-weight:900;
+  font-size:16px;
+  box-shadow:0 12px 22px rgba(47,119,255,.35);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.enterBtn:hover{
+  transform: translateY(-4px);
+  box-shadow:0 18px 32px rgba(47,119,255,.45);
+}
+
+[data-theme="dark"] .enterBtn{
+  box-shadow:0 12px 22px rgba(106,162,255,.22);
+}
+
+@media (max-width:600px){
+  .hero{ min-height:calc(100vh - 64px); padding:24px 16px; }
+  .introCard{ padding:24px 18px; border-radius:14px; }
+  .introCard h1{ font-size:26px; }
+  .subtitle{ font-size:15px; }
+  .features{ grid-template-columns:1fr; gap:12px; }
+  .enterBtn{ display:block; text-align:center; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+  <div class="leftTop">
+    <div class="brand">
+      <svg viewBox="0 0 64 64" width="44" height="44" fill="none" aria-hidden="true">
+        <polygon points="8,20 32,10 56,20 32,30" fill="#334155"/>
+        <text x="32" y="22" text-anchor="middle" font-size="8" font-weight="900" fill="#ffffff" font-family="Public Sans, sans-serif">UMB</text>
+        <rect x="22" y="30" width="20" height="8" rx="4" fill="#475569"/>
+        <circle cx="14" cy="22" r="2" fill="#f59e0b"/>
+        <polygon points="12,30 16,30 14,24" fill="#f59e0b"/>
+        <rect x="14" y="38" width="36" height="20" rx="4" fill="#2563eb"/>
+        <rect x="14" y="38" width="36" height="6" fill="#1d4ed8"/>
+        <rect x="20" y="36" width="3" height="4" rx="1" fill="#e2e8f0"/>
+        <rect x="41" y="36" width="3" height="4" rx="1" fill="#e2e8f0"/>
+        <rect x="20" y="47" width="4" height="4" fill="#93c5fd"/>
+        <rect x="26" y="47" width="4" height="4" fill="#bfdbfe"/>
+        <rect x="32" y="47" width="4" height="4" fill="#93c5fd"/>
+        <rect x="38" y="47" width="4" height="4" fill="#bfdbfe"/>
+        <path d="M25 54 L29 57 L37 49" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span>Planora's APS</span>
+    </div>
+
+    <nav class="navlinks">
+      <a class="active" href="home.html" data-i18n="nav.home">Home</a>
+      <a href="dashboard.html" data-i18n="nav.dashboard">Dashboard</a>
+      <a href="journey.html" data-i18n="nav.journey">Journey</a>
+    </nav>
+  </div>
+
+  <div class="rightTop">
+    <div class="toggle">
+      <svg class="moon" viewBox="0 0 24 24" fill="none">
+        <path d="M21 13.6A8.5 8.5 0 0 1 10.4 3 7 7 0 1 0 21 13.6Z" fill="rgba(255,255,255,.92)"/>
+      </svg>
+      <div class="switch" id="themeSwitch" role="switch" aria-checked="false" tabindex="0">
+        <div class="knob"></div>
+      </div>
+    </div>
+
+    <!-- Hamburger (mobile only) -->
+    <button class="hamburger" id="hamburgerBtn" aria-label="Open navigation menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</div>
+
+<!-- Mobile Nav Drawer -->
+<nav class="mobileNavDrawer" id="mobileNavDrawer" aria-label="Mobile navigation">
+  <a class="active" href="home.html">Home</a>
+  <a href="dashboard.html">Dashboard</a>
+  <a href="journey.html">Journey</a>
+</nav>
+
+<section class="hero">
+  <div class="introCard">
+    <h1 data-i18n="home.h1">Welcome to Planora's Academic Planning Simulator</h1>
+    <div class="subtitle" data-i18n="home.subtitle">A visual semester planning simulator that helps you balance credits, workload, and graduation progress — before registration.</div>
+
+    <div class="features">
+      <div class="feature">
+        <span data-i18n="home.f1t">📊 Workload Simulator</span>
+        <span data-i18n="home.f1d">Evaluate your semester with the workload scale meter</span>
+      </div>
+      <div class="feature">
+        <span data-i18n="home.f2t">🗺️ Academic Roadmap</span>
+        <span data-i18n="home.f2d">Explore a four-year roadmap for your selected major</span>
+      </div>
+      <div class="feature">
+        <span data-i18n="home.f3t">⚡ Instant Planning</span>
+        <span data-i18n="home.f3d">No login required, build schedules instantly</span>
+      </div>
+    </div>
+
+    <a href="dashboard.html" class="enterBtn">
+      <span data-i18n="home.enter">Enter Simulator →</span>
+    </a>
+  </div>
+</section>
+
+<script src="theme.js"></script>
+<script src="languages.js"></script>
+<script>
+  // Mobile hamburger menu
+  (function(){
+    const btn = document.getElementById('hamburgerBtn');
+    const drawer = document.getElementById('mobileNavDrawer');
+    if(!btn || !drawer) return;
+
+    btn.addEventListener('click', function(){
+      const isOpen = btn.classList.toggle('open');
+      drawer.classList.toggle('open', isOpen);
+      btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+
+    // Close drawer when a link is tapped
+    drawer.querySelectorAll('a').forEach(function(a){
+      a.addEventListener('click', function(){
+        btn.classList.remove('open');
+        drawer.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    // Close drawer when clicking outside
+    document.addEventListener('click', function(e){
+      if(!btn.contains(e.target) && !drawer.contains(e.target)){
+        btn.classList.remove('open');
+        drawer.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  })();
+</script>
+</body>
+</html>

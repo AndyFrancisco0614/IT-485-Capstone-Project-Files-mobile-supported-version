@@ -1,0 +1,2070 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>APS Journey</title>
+
+  <!-- Public Sans Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+ <style>
+
+body{
+  font-family: "Public Sans", sans-serif;
+  font-size: 16px;
+}
+
+.navlinks a{
+  font-size:16px;
+  font-weight:800;
+}
+
+.brand svg{
+  width:64px;
+  height:64px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+.brand span{
+  font-size:26px;
+  font-weight:800;
+}
+
+.journeyWrap{
+  max-width:1440px;
+  margin:30px auto 44px;
+  padding:0 24px;
+}
+
+.journeyHeader{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:22px;
+  margin-bottom:18px;
+}
+
+.journeyTitleCenter{
+  text-align:center;
+  width:100%;
+}
+
+.journeyTitleCenter h1{
+  margin:0;
+  font-size:34px;
+  font-weight:900;
+  letter-spacing:-.3px;
+  line-height:1.08;
+}
+
+.journeyTitleCenter .sub{
+  margin-top:10px;
+  color:var(--muted);
+  font-weight:700;
+  font-size:14px;
+  line-height:1.5;
+  max-width:560px;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.journeyControls{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  align-items:center;
+  gap:16px;
+  width:100%;
+}
+
+
+/* Make the first 3 search bars longer */
+.journeyControls .controlBox:nth-child(1),
+.journeyControls .controlBox:nth-child(2),
+.journeyControls .controlBox:nth-child(3){
+  flex: 1 1 360px;
+  max-width:420px;
+}
+
+/* Make the Year search bar shorter */
+.journeyControls .controlBox:nth-child(4){
+  flex: 0 0 140px;
+  max-width:160px;
+}
+
+
+
+.controlBox{
+  position:relative;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  min-height:58px;
+  border:1px solid var(--line);
+  padding:0 16px;
+  border-radius:18px;
+  background:var(--panel);
+  box-shadow: var(--shadow);
+}
+
+.controlBox svg{
+  width:18px;
+  height:18px;
+  opacity:.72;
+  flex:0 0 auto;
+}
+
+.controlBox input{
+  width:100%;
+  height:56px;
+  border:none;
+  outline:none;
+  background:transparent;
+  color:var(--text);
+  font-weight:800;
+  font-size:15px;
+  line-height:56px;
+  min-width:0;
+  padding:0;
+  text-align:left;
+}
+
+.controlBox input::placeholder{
+  color:var(--muted);
+  opacity:1;
+  font-weight:800;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button{
+  -webkit-appearance:none;
+  margin:0;
+}
+
+input[type="number"]{
+  -moz-appearance:textfield;
+}
+
+.majorSearchWrapper,
+.trackMajorSearchWrapper,
+.trackSearchWrapper{
+  position:relative;
+  width:100%;
+  min-width:0;
+  flex:1 1 auto;
+  box-sizing:border-box;
+}
+
+.majorResults,
+.trackMajorResults,
+.trackResults{
+  position:absolute;
+  top:calc(100% + 10px);
+  left:0;
+  right:0;
+
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:16px;
+  box-shadow:var(--shadow);
+
+  max-height:260px;
+  overflow-y:auto;
+  overflow-x:hidden;
+
+  display:none;
+  z-index:50;
+  padding:8px 12px 8px 0;   /* adds right breathing room */
+  box-sizing:border-box;
+
+  scrollbar-gutter: stable;
+}
+
+
+.majorResults,
+.trackMajorResults,
+.trackResults{
+  scrollbar-gutter: stable;
+}
+
+
+.majorResults div,
+.trackMajorResults div,
+.trackResults div{
+  padding:12px 20px;
+  font-weight:800;
+  font-size:14px;
+  line-height:1.4;
+  cursor:pointer;
+  user-select:none;
+  text-align:left;
+  word-break:break-word;
+  margin-right:8px; /* keeps text away from scrollbar */
+}
+
+
+/* Dropdown scroll container */
+.majorResults,
+.trackMajorResults,
+.trackResults{
+  position:absolute;
+  top:calc(100% + 10px);
+
+  left:-48px;
+  right:-18px;
+
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:16px;
+  box-shadow:var(--shadow);
+
+  max-height:260px;
+  overflow-y:auto;
+  overflow-x:hidden;
+
+  display:none;
+  z-index:50;
+  padding:8px 0;
+  box-sizing:border-box;
+}
+
+.majorResults::-webkit-scrollbar,
+.trackMajorResults::-webkit-scrollbar,
+.trackResults::-webkit-scrollbar{
+  width:8px;
+}
+
+.majorResults::-webkit-scrollbar-track,
+.trackMajorResults::-webkit-scrollbar-track,
+.trackResults::-webkit-scrollbar-track{
+  background:transparent;
+  margin:6px 0;
+}
+
+.majorResults::-webkit-scrollbar-thumb,
+.trackMajorResults::-webkit-scrollbar-thumb,
+.trackResults::-webkit-scrollbar-thumb{
+  background:rgba(100, 116, 139, 0.55);
+  border-radius:999px;
+}
+
+[data-theme="dark"] .majorResults::-webkit-scrollbar-thumb,
+[data-theme="dark"] .trackMajorResults::-webkit-scrollbar-thumb,
+[data-theme="dark"] .trackResults::-webkit-scrollbar-thumb{
+  background:rgba(255,255,255,.28);
+}
+
+
+.majorResults div:hover,
+.trackMajorResults div:hover,
+.trackResults div:hover{
+  background:rgba(47,119,255,.12);
+}
+
+.totalsRow{
+  margin-top:26px;
+  display:flex;
+  gap:18px;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:space-between;
+  padding:18px 20px;
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:18px;
+  box-shadow: var(--shadow);
+}
+
+.totalsRow .big{
+  font-size:16px;
+  font-weight:900;
+  line-height:1.25;
+}
+
+.totalsRow .small{
+  color:var(--muted);
+  font-weight:800;
+  font-size:12.5px;
+  margin-top:4px;
+  line-height:1.35;
+}
+
+.journeyGrid{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:18px;
+  align-items:start;
+  margin-top:25px;
+}
+
+.yearBlock{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:16px;
+  box-shadow: var(--shadow);
+  overflow:hidden;
+}
+
+.yearTop{
+  padding:14px 16px;
+  border-bottom:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+
+.yearTitle{
+  font-size:18px;
+  font-weight:900;
+}
+
+.yearMeta{
+  color:var(--muted);
+  font-weight:800;
+  font-size:12.5px;
+  white-space:nowrap;
+}
+
+.terms{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:12px;
+  padding:14px;
+}
+
+.termCard{
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:12px 12px 10px;
+  background: linear-gradient(180deg, rgba(255,255,255,.55), rgba(255,255,255,.25));
+}
+
+[data-theme="dark"] .termCard{
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+}
+
+.termTitle{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:10px;
+}
+
+.termTitle span{
+  font-weight:900;
+  font-size:14px;
+}
+
+.termCredits{
+  font-weight:900;
+  font-size:12.5px;
+  color:var(--muted);
+  white-space:nowrap;
+}
+
+.coursePill{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:10px;
+  padding:10px 10px;
+  border-radius:14px;
+  border:1px solid var(--line);
+  background:rgba(47,119,255,.05);
+  margin-bottom:8px;
+}
+
+[data-theme="dark"] .coursePill{
+  background:rgba(106,162,255,.10);
+}
+
+.coursePill.required-course{
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.42);
+}
+
+[data-theme="dark"] .coursePill.required-course{
+  background: rgba(239, 68, 68, 0.18);
+  border: 1px solid rgba(239, 68, 68, 0.45);
+}
+
+.coursePill.elective-course{
+  background: rgba(59, 130, 246, 0.12);
+  border: 1px solid rgba(59, 130, 246, 0.42);
+}
+
+[data-theme="dark"] .coursePill.elective-course{
+  background: rgba(59, 130, 246, 0.18);
+  border: 1px solid rgba(59, 130, 246, 0.45);
+}
+
+.coursePill.major-course{
+  background: rgba(255, 215, 0, 0.18);
+  border: 1px solid rgba(255, 215, 0, 0.55);
+}
+
+[data-theme="dark"] .coursePill.major-course{
+  background: rgba(255, 215, 0, 0.22);
+  border: 1px solid rgba(255, 215, 0, 0.55);
+}
+
+.coursePill.core-course{
+  background: rgba(239, 68, 68, 0.16);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+}
+
+[data-theme="dark"] .coursePill.core-course{
+  background: rgba(239, 68, 68, 0.16);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+}
+
+.coursePill.track-course{
+  background: rgba(34, 197, 94, 0.12);
+  border: 1px solid rgba(34, 197, 94, 0.42);
+}
+
+[data-theme="dark"] .coursePill.track-course{
+  background: rgba(34, 197, 94, 0.18);
+  border: 1px solid rgba(34, 197, 94, 0.45);
+}
+
+.coursePill.concentration-course{
+  background: rgba(34, 197, 94, 0.16);
+  border: 1px solid rgba(34, 197, 94, 0.50);
+}
+
+[data-theme="dark"] .coursePill.concentration-course{
+  background: rgba(34, 197, 94, 0.22);
+  border: 1px solid rgba(34, 197, 94, 0.60);
+}
+
+.coursePill.clickable-suggested{
+  cursor:pointer;
+  transition:transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+}
+
+.coursePill.clickable-suggested:hover{
+  transform:translateY(-1px);
+  box-shadow:0 10px 20px rgba(15, 23, 42, .08);
+  border-color:rgba(47,119,255,.55);
+}
+
+[data-theme="dark"] .coursePill.clickable-suggested:hover{
+  box-shadow:0 10px 20px rgba(0, 0, 0, .28);
+  border-color:rgba(125,167,255,.65);
+}
+
+.coursePill.clickable-suggested:active{
+  transform:translateY(0);
+}
+
+.coursePill:last-child{ margin-bottom:0; }
+
+.pillLeft .code{
+  font-weight:900;
+  font-size:13px;
+  letter-spacing:.2px;
+}
+
+.pillLeft .title{
+  margin-top:2px;
+  color:var(--muted);
+  font-weight:700;
+  font-size:12.5px;
+  line-height:1.25;
+}
+
+.pillRight{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  gap:6px;
+  flex: 0 0 auto;
+}
+
+.badge{
+  font-size:11px;
+  font-weight:900;
+  padding:5px 10px;
+  border-radius:999px;
+  border:1px solid rgba(47,119,255,.18);
+  background:var(--chip);
+  color:var(--chipText);
+  white-space:nowrap;
+}
+
+.badge.warn{
+  border-color: rgba(239,68,68,.35);
+  background: rgba(239,68,68,.10);
+  color: #ef4444;
+}
+
+.inputClearWrap{
+  position:relative;
+  width:100%;
+}
+
+.inputClearWrap input{
+  padding-right:34px;
+}
+
+.clearBtn{
+  position:absolute;
+  right:-10px;
+  top:60%;
+  transform:translateY(-50%);
+  width:24px;
+  height:24px;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  border-radius:999px;
+  font-size:14px;
+  font-weight:900;
+  cursor:pointer;
+  color:var(--muted);
+  user-select:none;
+  line-height:1;
+  background: .15s ease, color .15s ease;
+}
+
+.clearyearBtn{
+  position:absolute;
+  right:135px;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:14px;
+  font-weight:900;
+  cursor:pointer;
+  color:var(--muted);
+  display:none;
+  user-select:none;
+  line-height:1;
+}
+
+.clearyearBtn:hover{
+  color:#ef4444;
+}
+
+.clearBtn:hover{
+  color:#ef4444;
+  background:rgba(239,68,68,.10);
+}
+
+#regenBtn{
+  display:none;
+}
+
+.suggestPicker{
+  position:absolute;
+  z-index:1000;
+  width:300px;
+  min-width:300px;
+  max-width:300px;
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:16px;
+  box-shadow:var(--shadow);
+  padding:8px 0;
+  display:none;
+}
+
+.suggestPickerHeader{
+  font-size:13px;
+  font-weight:900;
+  padding:10px 14px;
+  border-bottom:1px solid var(--line);
+  color:var(--muted);
+}
+
+.suggestPickerList{
+  max-height:300px;
+  overflow-y:auto;
+}
+
+.suggestPickerItem{
+  padding:11px 14px;
+  font-weight:800;
+  font-size:13px;
+  cursor:pointer;
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:10px;
+  line-height:1.35;
+}
+
+.suggestPickerItem:hover{
+  background:rgba(47,119,255,.12);
+}
+
+[data-theme="dark"] .suggestPickerItem:hover{
+  background:rgba(106,162,255,.18);
+}
+
+.suggestPickerItemText{
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+  min-width:0;
+  flex:1 1 auto;
+}
+
+.suggestPickerItemCode{
+  font-weight:900;
+  color:var(--text);
+  word-break:break-word;
+}
+
+.suggestPickerItemTitle{
+  color:var(--muted);
+  font-weight:700;
+  font-size:12px;
+  line-height:1.3;
+  word-break:break-word;
+}
+
+.screenshotBtn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  height:36px;
+  padding:0 14px;
+  border-radius:10px;
+  border:1px solid var(--line);
+  background:var(--panel);
+  color:var(--text);
+  font-weight:800;
+  font-size:12px;
+  letter-spacing:.2px;
+  cursor:pointer;
+  box-shadow:var(--shadow);
+  transition:
+    background .15s ease,
+    border-color .15s ease,
+    transform .12s ease,
+    box-shadow .12s ease;
+}
+
+.screenshotBtn:hover{
+  background:rgba(47,119,255,.08);
+  border-color:rgba(47,119,255,.35);
+  transform:translateY(-1px);
+}
+
+.screenshotBtn:active{
+  transform:translateY(0);
+  box-shadow:0 4px 10px rgba(0,0,0,.15);
+}
+
+.screenshotBtn:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+  transform:none;
+}
+
+[data-theme="dark"] .screenshotBtn:hover{
+  background:rgba(106,162,255,.12);
+  border-color:rgba(106,162,255,.45);
+}
+
+@media (max-width: 1320px){
+  .journeyTitleCenter .sub{
+    max-width:760px;
+  }
+}
+
+@media (max-width: 980px){
+  .journeyGrid{
+    grid-template-columns:1fr;
+  }
+
+  .journeyControls{
+    flex-direction:column;
+    align-items:stretch;
+  }
+
+  .controlBox{
+    width:100%;
+  }
+
+  .controlBox input{
+    min-width:0;
+  }
+
+  .majorSearchWrapper,
+  .trackMajorSearchWrapper,
+  .trackSearchWrapper{
+    width:100%;
+  }
+}
+
+@media (max-width: 520px){
+  .journeyWrap{
+    padding:0 14px;
+  }
+
+  .journeyTitleCenter h1{
+    font-size:26px;
+  }
+
+  .terms{
+    grid-template-columns:1fr;
+  }
+
+  .totalsRow{
+    padding:16px;
+  }
+
+  .suggestPicker{
+    width:calc(100vw - 28px);
+    min-width:0;
+    max-width:calc(100vw - 28px);
+  }
+}
+
+</style>
+</head>
+
+<body>
+  <div class="topbar">
+    <div class="leftTop">
+
+
+      <div class="brand">
+
+<svg viewBox="0 0 64 64" width="44" height="44" fill="none" aria-hidden="true">
+
+  <!-- Graduation Cap -->
+  <polygon points="8,20 32,10 56,20 32,30"
+           fill="#334155"/>
+
+  <!-- UMB Text -->
+  <text x="32" y="22"
+        text-anchor="middle"
+        font-size="8"
+        font-weight="900"
+        fill="#ffffff"
+        font-family="Public Sans, sans-serif">
+        UMB
+  </text>
+
+  <!-- Cap Base -->
+  <rect x="22" y="30" width="20" height="8" rx="4"
+        fill="#475569"/>
+
+  <!-- Tassel -->
+  <circle cx="14" cy="22" r="2" fill="#f59e0b"/>
+  <polygon points="12,30 16,30 14,24"
+           fill="#f59e0b"/>
+
+  <!-- Calendar Base -->
+  <rect x="14" y="38" width="36" height="20" rx="4"
+        fill="#2563eb"/>
+
+  <!-- Calendar Top -->
+  <rect x="14" y="38" width="36" height="6"
+        fill="#1d4ed8"/>
+
+  <!-- Calendar Rings -->
+  <rect x="20" y="36" width="3" height="4" rx="1"
+        fill="#e2e8f0"/>
+  <rect x="41" y="36" width="3" height="4" rx="1"
+        fill="#e2e8f0"/>
+
+  <!-- Calendar Squares -->
+  <rect x="20" y="47" width="4" height="4" fill="#93c5fd"/>
+  <rect x="26" y="47" width="4" height="4" fill="#bfdbfe"/>
+  <rect x="32" y="47" width="4" height="4" fill="#93c5fd"/>
+  <rect x="38" y="47" width="4" height="4" fill="#bfdbfe"/>
+
+  <!-- Check -->
+  <path d="M25 54 L29 57 L37 49"
+        stroke="white"
+        stroke-width="2.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
+
+</svg>
+
+<span>Planora's APS</span>
+
+</div>
+
+      <nav class="navlinks">
+  <a href="home.html">Home</a>
+  <a href="dashboard.html">Dashboard</a>
+  <a class="active" href="journey.html">Journey</a>
+</nav>
+    </div>
+
+    <div class="rightTop">
+      <div class="toggle" title="Toggle dark mode">
+        <svg class="moon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M21 13.6A8.5 8.5 0 0 1 10.4 3 7 7 0 1 0 21 13.6Z" fill="rgba(255,255,255,.92)"/>
+        </svg>
+        <div class="switch" id="themeSwitch" role="switch" aria-checked="false" tabindex="0">
+          <div class="knob"></div>
+        </div>
+      </div>
+
+      <!-- Hamburger (mobile only) -->
+      <button class="hamburger" id="hamburgerBtn" aria-label="Open navigation menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Nav Drawer -->
+  <nav class="mobileNavDrawer" id="mobileNavDrawer" aria-label="Mobile navigation">
+    <a href="home.html">Home</a>
+    <a href="dashboard.html">Dashboard</a>
+    <a class="active" href="journey.html">Journey</a>
+  </nav>
+
+  <div class="journeyWrap">
+    <div class="journeyHeader">
+
+  <div class="journeyTitleCenter">
+    <h1 data-i18n="journey.h1">The Journey Planner</h1>
+    <div class="sub" data-i18n="journey.sub">
+      Build a recommended semester-by-semester plan from Freshman to Senior year 
+      Select a major to view the roadmap
+    </div>
+  </div>
+
+  <div class="journeyControls">
+
+        <div class="controlBox" title="Type or choose a major roadmap">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 3 1 9l11 6 9-4.9V17h2V9L12 3Z" stroke="currentColor" stroke-width="2" opacity=".7"/>
+            <path d="M6 13.5V17c0 2.2 3.1 4 6 4s6-1.8 6-4v-3.5" stroke="currentColor" stroke-width="2" opacity=".7"/>
+          </svg>
+
+          <div class="majorSearchWrapper inputClearWrap">
+            <input id="majorJourneySelect"
+                   placeholder="Major" data-i18n-placeholder="journey.majorPh"
+                   autocomplete="off" />
+            <span class="clearBtn" id="clearMajorBtn" title="Clear major" aria-label="Clear major">✕</span>
+            <div id="majorResults" class="majorResults"></div>
+          </div>
+        </div>
+
+        <div class="controlBox" title="Choose a major that has tracks or concentrations">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M4 6h16M4 12h16M4 18h10" stroke="currentColor" stroke-width="2" opacity=".7" stroke-linecap="round"/>
+          </svg>
+
+          <div class="trackMajorSearchWrapper inputClearWrap">
+            <input id="trackMajorSelect"
+                   placeholder="Major with Tracks / Concentrations"
+                   autocomplete="off" />
+            <span class="clearBtn" id="clearTrackMajorBtn" title="Clear track major" aria-label="Clear track major">✕</span>
+            <div id="trackMajorResults" class="trackMajorResults"></div>
+          </div>
+        </div>
+
+        <div class="controlBox" title="Choose the track or concentration for the selected major">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M5 7h14M5 12h10M5 17h7" stroke="currentColor" stroke-width="2" opacity=".7" stroke-linecap="round"/>
+          </svg>
+
+          <div class="trackSearchWrapper inputClearWrap">
+            <input id="trackConcentrationSelect"
+                   placeholder="Track / Concentration"
+                   autocomplete="off"
+                   disabled />
+            <span class="clearBtn" id="clearTrackConcentrationBtn" title="Clear track or concentration" aria-label="Clear track or concentration">✕</span>
+            <div id="trackConcentrationResults" class="trackResults"></div>
+          </div>
+        </div>
+
+        <div class="controlBox" title="Starting year (for display only)">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M7 2v3M17 2v3M4 7h16M5 10h14v10H5V10Z" stroke="currentColor" stroke-width="2" opacity=".7" stroke-linecap="round"/>
+          </svg>
+
+          <div class="inputClearWrap" style="min-width:210px;">
+            <input id="startYear"
+                   placeholder="Year" data-i18n-placeholder="journey.yearPh"
+                   type="text" inputmode="numeric" pattern="[0-9]*" value=""
+                   aria-label="Start year" />
+            <span class="clearyearBtn" id="clearYearBtn" title="Clear year" aria-label="Clear year">✕</span>
+          </div>
+        </div>
+
+        <button class="btn" id="regenBtn" title="Rebuild the roadmap"><span data-i18n="journey.generate">Generate Plan</span></button>
+      </div>
+    </div>
+
+    <div class="totalsRow" aria-label="Journey totals">
+      <div>
+        <div class="big" data-i18n="journey.summary">Roadmap Summary</div>
+        <div class="small" id="summaryText"></div>
+      </div>
+
+      <div style="display:flex; gap:14px; align-items:center; flex-wrap:wrap;">
+        <div>
+          <div class="big"><span id="totalSemCredits">0</span></div>
+          <div class="small" data-i18n="journey.totalCredits">Total Credits Planned</div>
+        </div>
+        <div>
+          <div class="big"><span id="totalCoursesPlanned">0</span></div>
+          <div class="small" data-i18n="journey.totalCourses">Total Courses Planned</div>
+        </div>
+        <button class="screenshotBtn" id="saveRoadmapScreenshotBtn" type="button" title="Save roadmap screenshot">
+          Save Screenshot
+        </button>
+      </div>
+    </div>
+
+    <div class="journeyGrid" id="journeyGrid"></div>
+  </div>
+
+  <div id="suggestPicker" class="suggestPicker"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="app.js"></script>
+  <script src="app2.js"></script>
+  <script src="app3.js"></script>
+
+  <script>
+  const {
+    allCourses = [],
+    demoMajors = [],
+    trackMajorOptions = [],
+    trackOptionsByMajor = {},
+    subjectCatalog = "",
+    courseHasSubject = () => false
+  } = window.SS_DB || {};
+
+  const majorInput = document.getElementById("majorJourneySelect");
+  const majorResults = document.getElementById("majorResults");
+  const trackMajorInput = document.getElementById("trackMajorSelect");
+  const trackMajorResults = document.getElementById("trackMajorResults");
+  const trackConcentrationInput = document.getElementById("trackConcentrationSelect");
+  const trackConcentrationResults = document.getElementById("trackConcentrationResults");
+  const picker = document.getElementById("suggestPicker");
+
+  const gridEl = document.getElementById("journeyGrid");
+  const startYearEl = document.getElementById("startYear");
+  const regenBtn = document.getElementById("regenBtn");
+
+  const totalSemCreditsEl = document.getElementById("totalSemCredits");
+  const totalCoursesPlannedEl = document.getElementById("totalCoursesPlanned");
+  const summaryTextEl = document.getElementById("summaryText");
+  const saveRoadmapScreenshotBtn = document.getElementById("saveRoadmapScreenshotBtn");
+
+  const clearMajorBtn = document.getElementById("clearMajorBtn");
+  const clearTrackMajorBtn = document.getElementById("clearTrackMajorBtn");
+  const clearTrackConcentrationBtn = document.getElementById("clearTrackConcentrationBtn");
+  const clearYearBtn = document.getElementById("clearYearBtn");
+
+  let journeySelections = {};
+
+  function normalize(str) {
+    return String(str || "").trim().toLowerCase();
+  }
+
+  function upper(str) {
+    return String(str || "").trim().toUpperCase();
+  }
+
+  function getJourneySelections() {
+    return journeySelections;
+  }
+
+  function saveJourneySelections(obj) {
+    journeySelections = obj || {};
+  }
+
+  function resetJourneySelections() {
+    journeySelections = {};
+  }
+
+  function selectionKey(majorName, termIdx, slotIdx) {
+    return `${normalize(majorName)}__${termIdx}__${slotIdx}`;
+  }
+
+  function majorAliases(q) {
+    const t = normalize(q);
+    const extra = [];
+
+    if (t === "it" || t.includes("information technology")) {
+      extra.push("Information Technology BS");
+      extra.push("Information Systems & Business Analytics – BS Major");
+    }
+
+    if (t === "cs" || t.includes("computer science")) {
+      extra.push("Computer Science - BA Major");
+      extra.push("Computer Science - BS Major");
+      extra.push("Computer Science BA");
+      extra.push("Computer Science BS");
+    }
+
+    return extra;
+  }
+
+  function getMajorNames() {
+    const hiddenTrackOnlyMajors = new Set([
+      "Business Intelligence Track (CM)",
+      "Computer Forensics Track (CM)",
+      "Information Architecture Track (CM)",
+      "System Administration Track (CM)",
+      "Business Intelligence Track (CSM)",
+      "Computer Forensics Track (CSM)",
+      "Information Architecture Track (CSM)",
+      "System Administration Track (CSM)",
+      "Media and Culture Track",
+      "Migration and Empire Track",
+      "Social Movement and Identity Formation Track",
+      "East Asian Studies Track",
+      "South Asian Studies Track",
+      "Biotechnology Track",
+      "Community Health Concentration",
+      "Economic Development Concentration",
+      "Early Childhood Licensure Prek-2 Concentration",
+      "Early Intervention Concentration",
+      "Infant/toddler Early Intervention Concentration",
+      "Infant/Toddler Education Concentration",
+      "Leadership & Administration Concentration",
+      "Preschool Education And Care Concentration",
+      "Applied Physics Concentration",
+      "Computer Science Concentration",
+      "Digital Electronics Concentration",
+      "Organic Chemistry Concentration",
+      "Physical Chemistry Concentration",
+      "Creative Writing Concentration",
+      "English Teaching Concentration",
+      "Irish Studies Concentration",
+      "Literary History Concentration",
+      "Professional Writing Concentration",
+      "Race, Ethnicity, and Literature Concentration",
+      "Earth and Hydrologic Science Track BA",
+      "Environmental Science Track BA",
+      "Marine Science Track BA",
+      "Earth and Hydrologic Science Track BS",
+      "Environmental Science Track BS",
+      "Marine Science Track BS",
+      "Language, Culture, and Society Track",
+      "Latin America Studies Track",
+      "Translation Studies Track",
+      "Accounting Concentration",
+      "Entrepreneurship Concentration",
+      "Finance Concentration",
+      "Human Resource Management Concentration",
+      "Information System & Business Analytics Concentration",
+      "Interdisciplinary Business Concentration",
+      "International Management Concentration",
+      "Leadership and Organizational Change Concentration",
+      "Marketing Concentration",
+      "Sport Business Concentration",
+      "Supply Chain & Service Management Concentration",
+      "General Math Concentration BA",
+      "Teaching Mathematics Concentration BA",
+      "Computational Math Concentration BS",
+      "General Math Concentration BS",
+      "Pure and Applied Math Concentration BS"
+    ]);
+
+    return (demoMajors || [])
+      .map(m => m && m.name)
+      .filter(Boolean)
+      .filter(name => !hiddenTrackOnlyMajors.has(name));
+  }
+
+  function showMajorResults(text = "") {
+    const q = normalize(text);
+    const majorNames = getMajorNames();
+    let matches = majorNames.slice();
+
+    if (q) {
+      matches = matches.filter(name => normalize(name).includes(q));
+    }
+
+    for (const alias of majorAliases(text)) {
+      if (!matches.includes(alias) && majorNames.includes(alias)) {
+        matches.unshift(alias);
+      }
+    }
+
+    const seen = new Set();
+    matches = matches.filter(name => {
+      const key = normalize(name);
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+
+    majorResults.innerHTML = matches
+      .slice(0, 200)
+      .map(name => `<div data-major="${name}">${name}</div>`)
+      .join("");
+
+    majorResults.style.display = matches.length ? "block" : "none";
+
+    majorResults.querySelectorAll("div").forEach(opt => {
+      opt.addEventListener("click", () => {
+        majorInput.value = opt.dataset.major;
+        majorResults.style.display = "none";
+        resetJourneySelections();
+        syncClearButtons();
+        renderJourney();
+      });
+    });
+  }
+
+  function getTrackMajorNames() {
+    return Array.isArray(trackMajorOptions) ? trackMajorOptions.slice() : [];
+  }
+
+  function getTrackOptionsForMajor(majorName) {
+    const raw = String(majorName || "").trim();
+    if (!raw || !trackOptionsByMajor) return [];
+
+    if (trackOptionsByMajor[raw]) {
+      return trackOptionsByMajor[raw];
+    }
+
+    const foundKey = Object.keys(trackOptionsByMajor).find(
+      key => normalize(key) === normalize(raw)
+    );
+
+    return foundKey ? (trackOptionsByMajor[foundKey] || []) : [];
+  }
+
+  function setTrackConcentrationState() {
+    const selectedTrackMajor = String(trackMajorInput.value || "").trim();
+    const options = getTrackOptionsForMajor(selectedTrackMajor);
+    const enabled = !!selectedTrackMajor && options.length > 0;
+
+    trackConcentrationInput.disabled = !enabled;
+    trackConcentrationInput.placeholder = enabled
+      ? "Tracks / Concentrations"
+      : "Select the 2nd search bar first";
+
+    if (!enabled) {
+      trackConcentrationInput.value = "";
+      trackConcentrationResults.innerHTML = "";
+      trackConcentrationResults.style.display = "none";
+    }
+  }
+
+  function showTrackMajorResults(text = "") {
+    const q = normalize(text);
+    let matches = getTrackMajorNames();
+
+    if (q) {
+      matches = matches.filter(name => normalize(name).includes(q));
+    }
+
+    const seen = new Set();
+    matches = matches.filter(name => {
+      const key = normalize(name);
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+
+    trackMajorResults.innerHTML = matches
+      .slice(0, 200)
+      .map(name => `<div data-track-major="${name}">${name}</div>`)
+      .join("");
+
+    trackMajorResults.style.display = matches.length ? "block" : "none";
+
+    trackMajorResults.querySelectorAll("div").forEach(opt => {
+      opt.addEventListener("click", () => {
+        trackMajorInput.value = opt.dataset.trackMajor;
+        trackMajorResults.style.display = "none";
+        trackConcentrationInput.value = "";
+        resetJourneySelections();
+        setTrackConcentrationState();
+        syncClearButtons();
+      });
+    });
+  }
+
+  function showTrackConcentrationResults(text = "") {
+    const selectedTrackMajor = String(trackMajorInput.value || "").trim();
+    const q = normalize(text);
+    let matches = getTrackOptionsForMajor(selectedTrackMajor);
+
+    if (q) {
+      matches = matches.filter(name => normalize(name).includes(q));
+    }
+
+    const seen = new Set();
+    matches = matches.filter(name => {
+      const key = normalize(name);
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+
+    trackConcentrationResults.innerHTML = matches
+      .slice(0, 200)
+      .map(name => `<div data-track-option="${name}">${name}</div>`)
+      .join("");
+
+    trackConcentrationResults.style.display = matches.length ? "block" : "none";
+
+    trackConcentrationResults.querySelectorAll("div").forEach(opt => {
+      opt.addEventListener("click", () => {
+        trackConcentrationInput.value = opt.dataset.trackOption;
+        trackConcentrationResults.style.display = "none";
+        resetJourneySelections();
+        syncClearButtons();
+        renderJourney();
+      });
+    });
+  }
+
+  majorInput.addEventListener("focus", () => showMajorResults(majorInput.value));
+  majorInput.addEventListener("input", () => {
+    showMajorResults(majorInput.value);
+    syncClearButtons();
+  });
+
+  trackMajorInput.addEventListener("focus", () => {
+    showTrackMajorResults(trackMajorInput.value);
+  });
+
+  trackMajorInput.addEventListener("input", () => {
+    showTrackMajorResults(trackMajorInput.value);
+    trackConcentrationInput.value = "";
+    resetJourneySelections();
+    setTrackConcentrationState();
+    syncClearButtons();
+  });
+
+  trackMajorInput.addEventListener("change", () => {
+    setTrackConcentrationState();
+    syncClearButtons();
+  });
+
+  trackConcentrationInput.addEventListener("focus", () => {
+    setTrackConcentrationState();
+    if (!trackConcentrationInput.disabled) {
+      showTrackConcentrationResults(trackConcentrationInput.value);
+    }
+  });
+
+  trackConcentrationInput.addEventListener("input", () => {
+    if (!trackConcentrationInput.disabled) {
+      showTrackConcentrationResults(trackConcentrationInput.value);
+    }
+    syncClearButtons();
+  });
+
+  trackConcentrationInput.addEventListener("change", () => {
+    syncClearButtons();
+    renderJourney();
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!e.target.closest(".majorSearchWrapper")) {
+      majorResults.style.display = "none";
+    }
+
+    if (!e.target.closest(".trackMajorSearchWrapper")) {
+      trackMajorResults.style.display = "none";
+    }
+
+    if (!e.target.closest(".trackSearchWrapper")) {
+      trackConcentrationResults.style.display = "none";
+    }
+
+    if (
+      !e.target.closest("#suggestPicker") &&
+      !e.target.closest(".coursePill[data-clickable='1']")
+    ) {
+      closePicker();
+    }
+  });
+
+  function findCourse(code) {
+    return (allCourses || []).find(c => c && c.code === code);
+  }
+
+  function prereqsMet(course, takenSet) {
+    const prereqs = Array.isArray(course?.prereqs) ? course.prereqs : [];
+    return prereqs.every(p => takenSet.has(p));
+  }
+
+  function defaultPoolForSubject(subjectCode) {
+    const subj = normalize(subjectCode);
+    return (allCourses || [])
+      .filter(c => normalize((c?.code || "").split(/\s+/)[0]) === subj)
+      .map(c => c.code);
+  }
+
+  function buildEightSemesterPlan(majorName) {
+    const majorObj = (demoMajors || []).find(
+      m => normalize(m?.name) === normalize(majorName)
+    );
+
+    if (!majorObj) return null;
+
+    if (Array.isArray(majorObj.roadmapFlat) && majorObj.roadmapFlat.length) {
+      const flat = majorObj.roadmapFlat.filter(Boolean);
+      const semesters = Array.from({ length: 8 }, () => []);
+
+      for (let i = 0; i < flat.length; i++) {
+        const code = flat[i];
+        const found = findCourse(code);
+
+        const obj = found ? found : (
+          /^ELECTIVE\s+\d+$/i.test(code)
+            ? {
+                code,
+                title: "Elective (choose any approved course)",
+                credits: 3,
+                difficulty: "Easy",
+                type: ["ELECTIVE"],
+                prereqs: []
+              }
+            : {
+                code,
+                title: "(Missing from catalog)",
+                credits: 0,
+                difficulty: "Easy",
+                type: ["UNKNOWN"],
+                prereqs: []
+              }
+        );
+
+        const semIdx = Math.floor(i / 5);
+        if (semIdx < 8) {
+          semesters[semIdx].push(obj);
+        }
+      }
+
+      return { major: majorObj, semesters };
+    }
+
+    let poolCodes = [];
+
+    if (Array.isArray(majorObj.required) || Array.isArray(majorObj.recommended)) {
+      poolCodes = [
+        ...(majorObj.required || []),
+        ...(majorObj.recommended || [])
+      ].filter(Boolean);
+    } else {
+      poolCodes = defaultPoolForSubject(majorObj.subject);
+    }
+
+    const seen = new Set();
+    const uniquePool = poolCodes.filter(code => {
+      const key = upper(code);
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+
+    const semesters = Array.from({ length: 8 }, () => []);
+    const taken = new Set();
+
+    const creditCap = Number.isFinite(majorObj.creditCap)
+      ? majorObj.creditCap
+      : (
+          Number.isFinite(majorObj.minCredits) && majorObj.minCredits > 120
+            ? 18
+            : 15
+        );
+
+    const remaining = uniquePool.map(code => {
+      const found = findCourse(code);
+      if (found) return found;
+
+      if (/^ELECTIVE\s+\d+$/i.test(code)) {
+        return {
+          code,
+          title: "Elective (choose any approved course)",
+          credits: 3,
+          difficulty: "Easy",
+          type: ["ELECTIVE"],
+          prereqs: []
+        };
+      }
+
+      return null;
+    }).filter(Boolean);
+
+    for (let s = 0; s < 8; s++) {
+      let credits = 0;
+
+      for (let i = 0; i < remaining.length;) {
+        const c = remaining[i];
+
+        if (prereqsMet(c, taken) && (credits + (c.credits || 0)) <= creditCap) {
+          semesters[s].push(c);
+          credits += (c.credits || 0);
+          taken.add(c.code);
+          remaining.splice(i, 1);
+        } else {
+          i++;
+        }
+      }
+
+      if (semesters[s].length === 0 && remaining.length) {
+        const c = remaining.shift();
+        semesters[s].push({ ...c, __forced: true });
+        taken.add(c.code);
+      }
+    }
+
+    const targetCredits = Number.isFinite(majorObj.minCredits) ? majorObj.minCredits : 120;
+    const termCredits = term => term.reduce((a, c) => a + (c.credits || 0), 0);
+    let totalPlanned = semesters.reduce((a, term) => a + termCredits(term), 0);
+
+    const pullElective = () => {
+      const idx = remaining.findIndex(x =>
+        (x && Array.isArray(x.type) && x.type.includes("ELECTIVE")) ||
+        /^ELECTIVE\s+\d+$/i.test(x.code || "")
+      );
+
+      if (idx >= 0) return remaining.splice(idx, 1)[0];
+      return null;
+    };
+
+    let autoElectiveN = 900;
+    const makeElective = () => ({
+      code: `ELECTIVE ${autoElectiveN++}`,
+      title: "Elective (choose any approved course)",
+      credits: 3,
+      difficulty: "Easy",
+      type: ["ELECTIVE"],
+      prereqs: []
+    });
+
+    const preferredTerms = [1, 3, 5, 7, 0, 2, 4, 6];
+    const softCap = creditCap + 3;
+
+    while (totalPlanned < targetCredits) {
+      const c = pullElective() || makeElective();
+      let placed = false;
+
+      for (const tIdx of preferredTerms) {
+        const tc = termCredits(semesters[tIdx]);
+        if (tc + (c.credits || 0) <= softCap) {
+          semesters[tIdx].push(c);
+          totalPlanned += (c.credits || 0);
+          placed = true;
+          break;
+        }
+      }
+
+      if (!placed) {
+        semesters[7].push(c);
+        totalPlanned += (c.credits || 0);
+      }
+    }
+
+    return { major: majorObj, semesters };
+  }
+
+  function parseSubjectCatalog() {
+    const lines = String(subjectCatalog || "")
+      .split("\n")
+      .map(line => line.trim())
+      .filter(Boolean);
+
+    return lines
+      .map(line => {
+        const parts = line.split("|");
+        const code = (parts[0] || "").trim();
+        const label = parts.slice(1).join("|").trim();
+        return { code, label: label ? `${code} | ${label}` : code };
+      })
+      .filter(item => item.code);
+  }
+
+  function getAllSubjectOptions() {
+    const baseSubjects = parseSubjectCatalog();
+
+    const distSubjects = [
+      { code: "AR", label: "AR | Arts" },
+      { code: "HU", label: "HU | Humanities" },
+      { code: "SB", label: "SB | Social and Behavioral Sciences" },
+      { code: "NS", label: "NS | Natural Sciences" },
+      { code: "WL", label: "WL | World Languages" },
+      { code: "WC", label: "WC | World Cultures" }
+    ];
+
+    const merged = [...baseSubjects, ...distSubjects];
+    const seen = new Set();
+
+    return merged.filter(item => {
+      const key = upper(item.code);
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }
+
+  function getCourseSubjectCode(course) {
+    const rawCode = String(course?.code || "").trim();
+    if (!rawCode) return "";
+
+    if (rawCode.startsWith("EDC U ")) return "EDC U";
+
+    const parts = rawCode.split(/\s+/);
+    if (parts.length >= 2 && upper(parts[0]) === "EDC" && upper(parts[1]) === "U") {
+      return "EDC U";
+    }
+
+    return upper(parts[0]);
+  }
+
+  function getCoursesForSubjectOrArea(subjectCode) {
+    const normalized = upper(subjectCode);
+
+    return (allCourses || []).filter(course => {
+      if (!course || !course.code) return false;
+      return typeof courseHasSubject === "function"
+        ? courseHasSubject(course, normalized)
+        : getCourseSubjectCode(course) === normalized;
+    });
+  }
+
+  function closePicker() {
+    picker.style.display = "none";
+    picker.innerHTML = "";
+    picker.dataset.term = "";
+    picker.dataset.slot = "";
+    picker.dataset.major = "";
+  }
+
+  function positionPickerNearCard(card) {
+    const rect = card.getBoundingClientRect();
+    const top = window.scrollY + rect.bottom + 6;
+    const left = window.scrollX + rect.left;
+
+    picker.style.top = `${top}px`;
+    picker.style.left = `${left}px`;
+    picker.style.display = "block";
+
+    const pickerRect = picker.getBoundingClientRect();
+    const viewportWidth = document.documentElement.clientWidth;
+    const maxLeft = window.scrollX + viewportWidth - pickerRect.width - 14;
+
+    if (left > maxLeft) {
+      picker.style.left = `${Math.max(window.scrollX + 14, maxLeft)}px`;
+    }
+  }
+
+  function openSubjectDropdown(card, majorName, termIdx, slotIdx) {
+    const subjects = getAllSubjectOptions();
+
+    picker.innerHTML = `
+      <div class="suggestPickerHeader">Choose Subject</div>
+      <div class="suggestPickerList">
+        ${subjects.map(item => `
+          <div class="suggestPickerItem" data-subject="${item.code}">
+            <div class="suggestPickerItemText">
+              <div class="suggestPickerItemCode">${item.label}</div>
+            </div>
+          </div>
+        `).join("")}
+      </div>
+    `;
+
+    picker.dataset.major = majorName;
+    picker.dataset.term = String(termIdx);
+    picker.dataset.slot = String(slotIdx);
+
+    positionPickerNearCard(card);
+
+    picker.querySelectorAll(".suggestPickerItem[data-subject]").forEach(item => {
+      item.addEventListener("click", (e) => {
+        e.stopPropagation();
+        openCourseDropdown(card, majorName, termIdx, slotIdx, item.dataset.subject);
+      });
+    });
+  }
+
+  function openCourseDropdown(card, majorName, termIdx, slotIdx, subjectCode) {
+  let matchingCourses = getCoursesForSubjectOrArea(subjectCode);
+
+  // ✅ Sort by subject first, then course number, then full code
+  matchingCourses = matchingCourses.sort((a, b) => {
+    const aCode = String(a?.code || "").trim().toUpperCase();
+    const bCode = String(b?.code || "").trim().toUpperCase();
+
+    const getSubjectPart = (code) => {
+      if (code.startsWith("EDC U ")) return "EDC U";
+      const parts = code.split(/\s+/);
+      if (parts.length >= 2 && parts[0] === "EDC" && parts[1] === "U") return "EDC U";
+      return parts[0] || "";
+    };
+
+    const getNumberPart = (code) => {
+      const match = code.match(/\d+/);
+      return match ? parseInt(match[0], 10) : 0;
+    };
+
+    const aSubject = getSubjectPart(aCode);
+    const bSubject = getSubjectPart(bCode);
+
+    // 1. Sort by subject code first
+    if (aSubject !== bSubject) {
+      return aSubject.localeCompare(bSubject);
+    }
+
+    // 2. Then sort by numeric course number
+    const aNum = getNumberPart(aCode);
+    const bNum = getNumberPart(bCode);
+
+    if (aNum !== bNum) {
+      return aNum - bNum;
+    }
+
+    // 3. If same number, sort by full code (ex: 104 before 104L if needed)
+    return aCode.localeCompare(bCode);
+  });
+
+  const selectedSubject = getAllSubjectOptions().find(
+    item => upper(item.code) === upper(subjectCode)
+  );
+
+  picker.innerHTML = `
+    <div class="suggestPickerHeader">${selectedSubject ? selectedSubject.label : subjectCode}</div>
+    <div class="suggestPickerList">
+      ${matchingCourses.length ? matchingCourses.map(c => `
+        <div class="suggestPickerItem" data-code="${c.code}" data-subject="${subjectCode}">
+          <div class="suggestPickerItemText">
+            <div class="suggestPickerItemCode">${c.code} <span style="color:var(--muted);font-weight:800;">(${c.credits || 0})</span></div>
+            <div class="suggestPickerItemTitle">${c.title || ""}</div>
+          </div>
+        </div>
+      `).join("") : `
+        <div class="suggestPickerItem" style="cursor:default;">
+          <div class="suggestPickerItemText">
+            <div class="suggestPickerItemCode">No courses found</div>
+          </div>
+        </div>
+      `}
+    </div>
+  `;
+
+  positionPickerNearCard(card);
+
+  picker.querySelectorAll(".suggestPickerItem[data-code]").forEach(item => {
+    item.addEventListener("click", (e) => {
+      e.stopPropagation();
+
+      const saved = getJourneySelections();
+      const key = selectionKey(majorName, termIdx, slotIdx);
+
+      saved[key] = {
+        code: item.dataset.code,
+        area: item.dataset.subject
+      };
+
+      saveJourneySelections(saved);
+      closePicker();
+      renderJourney();
+    });
+  });
+}
+
+  function applyJourneySelections(majorName, semesters) {
+    const saved = getJourneySelections();
+
+    return semesters.map((term, termIdx) =>
+      term.map((course, slotIdx) => {
+        const savedEntry = saved[selectionKey(majorName, termIdx, slotIdx)];
+        if (!savedEntry) return course;
+
+        const chosenCode = typeof savedEntry === "string" ? savedEntry : savedEntry.code;
+        const chosenArea = typeof savedEntry === "string" ? "" : (savedEntry.area || "");
+        const chosenCourse = findCourse(chosenCode);
+
+        if (chosenCourse) {
+          return {
+            ...chosenCourse,
+            __chosenSuggested: true,
+            __chosenArea: chosenArea,
+            __originalSuggestedCode: course.code
+          };
+        }
+
+        return {
+          ...course,
+          __chosenSuggested: true,
+          __chosenArea: chosenArea
+        };
+      })
+    );
+  }
+
+  function termLabel(idx, startYear) {
+    const isFall = idx % 2 === 0;
+    const yearOffset = Math.floor(idx / 2);
+    const y = isFall ? startYear + yearOffset : startYear + yearOffset + 1;
+    return `${isFall ? "Fall" : "Spring"} ${y}`;
+  }
+
+  function yearTitle(idx) {
+    return ["Freshman Year", "Sophomore Year", "Junior Year", "Senior Year"][idx] || `Year ${idx + 1}`;
+  }
+
+  function sumCredits(term) {
+    return term.reduce((a, c) => a + (c.credits || 0), 0);
+  }
+
+  function attachSuggestedCardHandlers(majorName) {
+    gridEl.querySelectorAll(".coursePill[data-clickable='1']").forEach(card => {
+      card.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const termIdx = Number(card.dataset.term);
+        const slotIdx = Number(card.dataset.slot);
+        openSubjectDropdown(card, majorName, termIdx, slotIdx);
+      });
+    });
+  }
+
+  function renderTermCard(termIdx, courses, startYear, major) {
+    const label = termLabel(termIdx, startYear);
+    const credits = sumCredits(courses);
+
+    const pills = courses.map((c, slotIdx) => {
+      const badges = [];
+      let courseBoxClass = "coursePill";
+
+      const isMajor = (major.major || []).includes(c.code);
+      const isCore = (major.core || []).includes(c.code);
+      const isTrack = (major.track || []).includes(c.code);
+      const isConcentration = (major.concentration || []).includes(c.code);
+      const isChosenSuggested = !!c.__chosenSuggested;
+      const chosenArea = c.__chosenArea || "";
+
+      if (isTrack) {
+        badges.push(`<span class="badge">Track</span>`);
+        courseBoxClass += " track-course";
+      } else if (isConcentration) {
+        badges.push(`<span class="badge">Concentration</span>`);
+        courseBoxClass += " concentration-course";
+      } else if (isMajor) {
+        badges.push(`<span class="badge">Major</span>`);
+        courseBoxClass += " major-course";
+      } else if (isCore) {
+        badges.push(`<span class="badge">Core</span>`);
+        courseBoxClass += " core-course";
+      } else {
+        badges.push(`<span class="badge">Suggested</span>`);
+
+        if (isChosenSuggested && chosenArea) {
+          const found = getAllSubjectOptions().find(
+            item => upper(item.code) === upper(chosenArea)
+          );
+          badges.push(`<span class="badge">${found ? found.code : chosenArea}</span>`);
+        }
+
+        courseBoxClass += " elective-course clickable-suggested";
+      }
+
+      if (c.__forced) {
+        badges.push(`<span class="badge warn">Prereq Order Warning</span>`);
+      }
+
+      const clickableAttr = (!isTrack && !isConcentration && !isMajor && !isCore)
+        ? `data-clickable="1" data-code="${c.code}" data-term="${termIdx}" data-slot="${slotIdx}"`
+        : "";
+
+      return `
+        <div class="${courseBoxClass}" ${clickableAttr}>
+          <div class="pillLeft">
+            <div class="code">${c.code}
+              <span style="color:var(--muted);font-weight:800;">(${c.credits || 0})</span>
+            </div>
+            <div class="title">${c.title || ""}</div>
+          </div>
+          <div class="pillRight">${badges.join("")}</div>
+        </div>
+      `;
+    }).join("");
+
+    return `
+      <div class="termCard" aria-label="${label}">
+        <div class="termTitle">
+          <span>${label}</span>
+          <div class="termCredits">${credits} credits</div>
+        </div>
+        ${pills || `<div class="subtle">No courses assigned.</div>`}
+      </div>
+    `;
+  }
+
+  function renderJourney() {
+    const selectedTrackMajor = String(trackMajorInput.value || "").trim();
+    const selectedTrackConcentration = String(trackConcentrationInput.value || "").trim();
+    const majorName = String(majorInput.value || "").trim() || selectedTrackConcentration;
+    const startYear = parseInt(startYearEl.value || "2026", 10) || 2026;
+
+    closePicker();
+
+    if (!majorName) {
+      totalSemCreditsEl.textContent = "0";
+      totalCoursesPlannedEl.textContent = "0";
+      summaryTextEl.textContent = "Please select a major to view a 4-year plan roadmap.";
+      gridEl.innerHTML = "";
+      return;
+    }
+
+    const result = buildEightSemesterPlan(majorName);
+
+    if (!result) {
+      totalSemCreditsEl.textContent = "0";
+      totalCoursesPlannedEl.textContent = "0";
+      summaryTextEl.textContent = "Major not found. Try: Information Technology or Computer Science.";
+      gridEl.innerHTML = "";
+      return;
+    }
+
+    const { major } = result;
+    const semesters = applyJourneySelections(major.name, result.semesters);
+
+    const totalCredits = semesters.reduce((a, sem) => a + sumCredits(sem), 0);
+    const totalCourses = semesters.reduce((a, sem) => a + sem.length, 0);
+
+    totalSemCreditsEl.textContent = totalCredits;
+    totalCoursesPlannedEl.textContent = totalCourses;
+
+    const targetCredits = Number.isFinite(major.minCredits) ? major.minCredits : 120;
+    const perTermTarget = Number.isFinite(major.creditCap)
+      ? major.creditCap
+      : ((targetCredits > 120) ? 18 : 15);
+
+    const trackText = (selectedTrackMajor && selectedTrackConcentration)
+      ? ` Selected track/concentration: ${selectedTrackConcentration} (${selectedTrackMajor}).`
+      : "";
+
+    summaryTextEl.textContent =
+      (Array.isArray(major.roadmapFlat) && major.roadmapFlat.length)
+        ? `Roadmap for ${major.name}. Fixed 8-semester plan (5 courses/term). Planned: ${totalCredits} credits.${trackText}`
+        : `Roadmap for ${major.name}. Target: ${targetCredits} total credits (~${perTermTarget} credits/term). Planned: ${totalCredits}/${targetCredits}.${trackText}`;
+
+    const yearBlocks = [];
+
+    for (let y = 0; y < 4; y++) {
+      const s1 = semesters[y * 2];
+      const s2 = semesters[y * 2 + 1];
+      const yearCredits = sumCredits(s1) + sumCredits(s2);
+
+      yearBlocks.push(`
+        <section class="yearBlock" aria-label="${yearTitle(y)}">
+          <div class="yearTop">
+            <div class="yearTitle">${yearTitle(y)}</div>
+            <div class="yearMeta">${yearCredits} credits planned</div>
+          </div>
+
+          <div class="terms">
+            ${renderTermCard(y * 2, s1, startYear, major)}
+            ${renderTermCard(y * 2 + 1, s2, startYear, major)}
+          </div>
+        </section>
+      `);
+    }
+
+    gridEl.innerHTML = yearBlocks.join("");
+    attachSuggestedCardHandlers(major.name);
+  }
+
+
+  async function saveRoadmapScreenshot() {
+    if (!gridEl || !gridEl.children.length) return;
+
+    const totalsRowEl = document.querySelector(".totalsRow");
+    if (!totalsRowEl) return;
+
+    const originalPickerDisplay = picker.style.display;
+    closePicker();
+
+    const originalButtonText = saveRoadmapScreenshotBtn ? saveRoadmapScreenshotBtn.textContent : "";
+    if (saveRoadmapScreenshotBtn) {
+      saveRoadmapScreenshotBtn.disabled = true;
+      saveRoadmapScreenshotBtn.textContent = "Saving...";
+    }
+
+    let captureWrap = null;
+
+    try {
+      captureWrap = document.createElement("div");
+      captureWrap.style.position = "fixed";
+      captureWrap.style.left = "-100000px";
+      captureWrap.style.top = "0";
+      captureWrap.style.width = `${Math.max(totalsRowEl.offsetWidth, gridEl.offsetWidth)}px`;
+      captureWrap.style.padding = "0";
+      captureWrap.style.margin = "0";
+      captureWrap.style.background = getComputedStyle(document.documentElement).getPropertyValue('--bg')?.trim() || document.body.style.background || "#ffffff";
+      captureWrap.style.zIndex = "-1";
+
+      const summaryClone = totalsRowEl.cloneNode(true);
+      const gridClone = gridEl.cloneNode(true);
+
+      const clonedButton = summaryClone.querySelector("#saveRoadmapScreenshotBtn");
+      if (clonedButton) {
+        clonedButton.remove();
+      }
+
+      summaryClone.style.marginTop = "0";
+      gridClone.style.marginTop = "25px";
+
+      captureWrap.appendChild(summaryClone);
+      captureWrap.appendChild(gridClone);
+      document.body.appendChild(captureWrap);
+
+      const canvas = await html2canvas(captureWrap, {
+        backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--bg')?.trim() || "#ffffff",
+        scale: Math.max(2, window.devicePixelRatio || 1),
+        useCORS: true
+      });
+
+      const safeMajor = String(majorInput.value || trackConcentrationInput.value || "roadmap")
+        .trim()
+        .replace(/[^a-z0-9]+/gi, "-")
+        .replace(/^-+|-+$/g, "")
+        .toLowerCase() || "roadmap";
+
+      const link = document.createElement("a");
+      link.href = canvas.toDataURL("image/png");
+      link.download = `${safeMajor}-roadmap.png`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch (err) {
+      console.error("Failed to save roadmap screenshot:", err);
+      alert("Unable to save the roadmap screenshot right now.");
+    } finally {
+      if (captureWrap && captureWrap.parentNode) {
+        captureWrap.parentNode.removeChild(captureWrap);
+      }
+
+      picker.style.display = originalPickerDisplay && originalPickerDisplay !== "none" ? originalPickerDisplay : "none";
+
+      if (saveRoadmapScreenshotBtn) {
+        saveRoadmapScreenshotBtn.disabled = false;
+        saveRoadmapScreenshotBtn.textContent = originalButtonText || "Save Screenshot";
+      }
+    }
+  }
+
+  function syncClearButtons() {
+    clearMajorBtn.style.display = majorInput.value ? "block" : "none";
+    clearTrackMajorBtn.style.display = trackMajorInput.value ? "block" : "none";
+    clearTrackConcentrationBtn.style.display = trackConcentrationInput.value ? "block" : "none";
+    clearYearBtn.style.display = startYearEl.value ? "block" : "none";
+  }
+
+  clearMajorBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    majorInput.value = "";
+    majorResults.style.display = "none";
+    resetJourneySelections();
+    syncClearButtons();
+    renderJourney();
+    majorInput.focus();
+  });
+
+  clearTrackMajorBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    trackMajorInput.value = "";
+    trackMajorResults.style.display = "none";
+    trackConcentrationInput.value = "";
+    trackConcentrationResults.style.display = "none";
+    setTrackConcentrationState();
+    resetJourneySelections();
+    syncClearButtons();
+    renderJourney();
+    trackMajorInput.focus();
+  });
+
+  clearTrackConcentrationBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    trackConcentrationInput.value = "";
+    trackConcentrationResults.style.display = "none";
+    resetJourneySelections();
+    syncClearButtons();
+    renderJourney();
+    trackConcentrationInput.focus();
+  });
+
+  clearYearBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    startYearEl.value = "";
+    syncClearButtons();
+    renderJourney();
+    startYearEl.focus();
+  });
+
+  startYearEl.addEventListener("input", syncClearButtons);
+  startYearEl.addEventListener("change", () => {
+    syncClearButtons();
+    renderJourney();
+  });
+
+  trackMajorInput.addEventListener("input", syncClearButtons);
+  trackMajorInput.addEventListener("change", syncClearButtons);
+  trackConcentrationInput.addEventListener("input", syncClearButtons);
+  trackConcentrationInput.addEventListener("change", syncClearButtons);
+
+  if (regenBtn) {
+    regenBtn.addEventListener("click", renderJourney);
+  }
+
+  if (saveRoadmapScreenshotBtn) {
+    saveRoadmapScreenshotBtn.addEventListener("click", saveRoadmapScreenshot);
+  }
+
+  setTrackConcentrationState();
+  syncClearButtons();
+  renderJourney();
+</script>
+
+  <script src="theme.js"></script>
+  <script src="languages.js"></script>
+  <script>
+    // Mobile hamburger menu
+    (function(){
+      const btn = document.getElementById('hamburgerBtn');
+      const drawer = document.getElementById('mobileNavDrawer');
+      if(!btn || !drawer) return;
+
+      btn.addEventListener('click', function(){
+        const isOpen = btn.classList.toggle('open');
+        drawer.classList.toggle('open', isOpen);
+        btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      });
+
+      drawer.querySelectorAll('a').forEach(function(a){
+        a.addEventListener('click', function(){
+          btn.classList.remove('open');
+          drawer.classList.remove('open');
+          btn.setAttribute('aria-expanded', 'false');
+        });
+      });
+
+      document.addEventListener('click', function(e){
+        if(!btn.contains(e.target) && !drawer.contains(e.target)){
+          btn.classList.remove('open');
+          drawer.classList.remove('open');
+          btn.setAttribute('aria-expanded', 'false');
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
